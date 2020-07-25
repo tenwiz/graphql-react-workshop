@@ -1,10 +1,4 @@
-### GraphQL Workshop
-
-Kiran Abburi
-
-@kiran_abburi
-
----
+### GraphQL React Workshop
 
 ### Agenda
 
