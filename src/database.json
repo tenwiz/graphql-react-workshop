@@ -2,9 +2,9 @@
   "users": [
     {
       "id": 1,
-      "email": "kiran@gmail.com",
-      "firstName": "Kiran",
-      "lastName": "Kumar",
+      "email": "admin@gmail.com",
+      "firstName": "Admin",
+      "lastName": "User",
       "password": "$2b$10$WEPEjjUm0OLxy4Ur/J6Nlu/chdiKP/p6WzQiIyk6C0EMbkzjUKSQq",
       "role": "ADMIN"
     },
