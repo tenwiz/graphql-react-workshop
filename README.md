@@ -1,4 +1,4 @@
-# graphql-asia-2019-workshop
+# graphql-react-workshop
 
 ```
 npm install
