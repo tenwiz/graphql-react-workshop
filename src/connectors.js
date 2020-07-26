@@ -10,7 +10,7 @@ export function getUsers() {
 
 export function getUser(id) {
   const users = getUsers();
-  return users.find(user => user.id === id);
+  return users.find((user) => user.id === id);
 }
 
 export function getPosts() {
@@ -19,12 +19,12 @@ export function getPosts() {
 
 export function getPost(id) {
   const posts = getPosts();
-  return posts.find(post => post.id === id);
+  return posts.find((post) => post.id === id);
 }
 
 export function getComments(postId) {
   const comments = db.get("comments");
-  return comments.filter(comment => comment.post === postId);
+  return comments.filter((comment) => comment.post === postId);
 }
 
 export function signup(user, { res }) {
@@ -33,26 +33,26 @@ export function signup(user, { res }) {
   const newUser = {
     id: users.length + 1,
     ...user,
-    password: bcrypt.hashSync(user.password, salt)
+    password: bcrypt.hashSync(user.password, salt),
   };
   const token = jwt.sign({ id: newUser.id }, JWT_SECRET);
   const newUsers = users.concat(newUser);
   db.set("users", newUsers);
   res.cookie("token", token, {
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 // 1 day
+    maxAge: 1000 * 60 * 60 * 24, // 1 day
   });
   return true;
 }
 
 export function login(user, { res }) {
   const users = getUsers();
-  const foundUser = users.find(u => u.email === user.email);
+  const foundUser = users.find((u) => u.email === user.email);
   if (foundUser && bcrypt.compareSync(user.password, foundUser.password)) {
     const token = jwt.sign({ id: foundUser.id }, JWT_SECRET);
     res.cookie("token", token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 // 1 day
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
     });
     return true;
   }
@@ -62,7 +62,7 @@ export function login(user, { res }) {
 export function logout({ res, user }) {
   res.cookie("token", "", {
     httpOnly: true,
-    expires: new Date()
+    expires: new Date(),
   });
   return true;
 }
@@ -71,7 +71,7 @@ export function createPost(post) {
   const posts = getPosts();
   const newPost = {
     id: posts.length + 1,
-    ...post
+    ...post,
   };
   const newPosts = posts.concat(newPost);
   db.set("posts", newPosts);
@@ -81,7 +81,7 @@ export function createPost(post) {
 
 export function publishPost(args) {
   const posts = getPosts();
-  const index = posts.findIndex(post => post.id === args.id);
+  const index = posts.findIndex((post) => post.id === args.id);
   if (index >= 0) {
     posts[index].published = true;
     db.set("posts", posts);
@@ -93,7 +93,7 @@ export function createComment(comment) {
   const comments = db.get("comments");
   const newComment = {
     id: comments.length + 1,
-    ...comment
+    ...comment,
   };
   const newComments = comments.concat(newComment);
   db.set("comments", newComments);

@@ -28,18 +28,18 @@ function authCheck(token) {
 
 const graphql = new ApolloServer({
   schemaDirectives: {
-    auth: AuthDirective
+    auth: AuthDirective,
   },
   typeDefs,
   resolvers,
-  context: options => {
+  context: (options) => {
     const { req, res, connection } = options;
     if (connection) {
       return connection.context;
     }
     return {
       user: authCheck(get(req, "cookies.token")),
-      res
+      res,
     };
   },
   subscriptions: {
@@ -48,22 +48,22 @@ const graphql = new ApolloServer({
       const { token } = cookie.parse(cookieString);
       return {
         ...connectionParams,
-        user: authCheck(token)
+        user: authCheck(token),
       };
-    }
+    },
   },
 
   playground: {
     settings: {
-      "request.credentials": false
-    }
-  }
+      "request.credentials": false,
+    },
+  },
 });
 
 const app = express();
 app.use(cookieParser());
 app.use(
-  morgan(function(tokens, req, res) {
+  morgan(function (tokens, req, res) {
     return [
       tokens.method(req, res),
       tokens.url(req, res),
@@ -72,7 +72,7 @@ app.use(
       "-",
       tokens["response-time"](req, res),
       "ms",
-      JSON.stringify(req.body, null, 2)
+      JSON.stringify(req.body, null, 2),
     ].join(" ");
   })
 );
@@ -80,6 +80,6 @@ graphql.applyMiddleware({ app, path: "/" });
 const server = http.createServer(app);
 graphql.installSubscriptionHandlers(server);
 
-server.listen(PORT, a => {
+server.listen(PORT, (a) => {
   console.log(`🚀  Server ready at ${PORT}`);
 });
